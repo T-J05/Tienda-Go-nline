@@ -1,14 +1,20 @@
 import Crud from "../controllers/productsController.js";
 import express from "express";
+import JWT from "../middlewares/jwt.js";
 const router = express.Router();
-const crud = new Crud
+const crud = new Crud();
+const middlewares = new JWT();
 
 
-export default
-router.get("/producto", crud.verProductos);
 
-router.post("/producto",crud.crearProducto);
+router.get("/", crud.verProductos);
 
-router.patch("/producto",crud.editarProducto);
+router.post("/",middlewares.verificarToken,middlewares.verificarRol,crud.crearProducto);
 
-router.delete("/producto",crud.eliminarProducto);
+router.patch("/:id",middlewares.verificarToken,middlewares.verificarRol,crud.editarProducto);
+
+router.delete("/:id",middlewares.verificarToken,middlewares.verificarRol,crud.eliminarProducto);
+
+
+
+export default router

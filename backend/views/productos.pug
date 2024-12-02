@@ -1,0 +1,14 @@
+doctype html
+html
+  head
+    title Productos
+  body
+    h1 Lista de productos
+ul
+  if productos && productos.length > 0
+    each producto in productos
+      li
+        h3= producto.name 
+        p Precio: $#{producto.price}
+  else
+    p No hay productos disponibles.
