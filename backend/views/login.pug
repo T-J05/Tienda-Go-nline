@@ -1,7 +1,14 @@
 doctype html
 html
   head
-    title CRUD con Pug
-    link(rel="stylesheet", href="/styles.css")
+    title Login
   body
-    block content
+    h2 Ingresa como Admin
+    form(action="/admin/login" method="POST")
+      label(for="username") Username:
+      input(type="text" name="username" id="username" required)
+      
+      label(for="contraseña") Contraseña:
+      input(type="text" name="contraseña" id="contraseña" required)
+      
+      button(type="submit") Entrar

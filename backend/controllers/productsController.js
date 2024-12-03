@@ -24,7 +24,7 @@ export default class Crud{
                 price:price,
                 image:image
             })
-            res.redirect("/productos");
+            res.redirect("/producto");
             }catch(error){
             throw Error({ErrorCrearProducto:error})
             };
@@ -45,7 +45,7 @@ export default class Crud{
                 if(updateProduct.matchedCount === 0){
                     return res.status(404).json(ErrorEditarProducto)
                 }
-                res.redirect("/productos");
+                res.redirect("/producto");
                }
                
             }catch(error){
@@ -63,7 +63,7 @@ export default class Crud{
             if(deletedProduct.deletedCount === 0 ){
                 return res.status(404).json({ProductoEliminado: deletedProduct,msj:("No encontrado")})
             }
-            res.redirect("/productos");
+            res.redirect("/producto");
         }catch(error){
             res.status(404).json({ErrorEliminarProducto: error.message})
         }

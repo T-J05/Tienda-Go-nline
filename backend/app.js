@@ -20,6 +20,8 @@ app.use(express.urlencoded({ extended: true }));
 
 app.use("/producto",productsRoutes);
 app.use("/admin",authRoutes);
+
+
 app.listen(port,() => {
     console.log(`Servidor corriendo en el puerto ${port}`)
 });

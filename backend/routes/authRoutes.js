@@ -10,6 +10,7 @@ router.post("/register",userclass.register)
 
 router.post("/login",userclass.userfuction)
 
-router.get("/login")
+router.get("/login",userclass.login_render,userclass.redirectt)
+
 
 export default router;

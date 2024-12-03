@@ -2,7 +2,7 @@ import Users from "../models/userModel.js";
 import JWT from "../middlewares/jwt.js";
 import bcrypt from "bcrypt"
 import dotenv from "dotenv";
-
+import time from "timers"
 
 dotenv.config();
 const jwt = new JWT();
@@ -51,15 +51,28 @@ export default  class UsersClass{
                         username: username
                     }
                     const token = jwt.generarJwt(payload,secret_key);
-                    res.cookie("token",token).redirect("/productos")
+                    res.cookie("token",token).redirect("/producto")
                 }
-                else{
-                    return res.status(403).json({ErrorAccesoDenegado})
-                }
+           
+            }
+            else{
+                res.status(404).json("Contraseñas no coinciden")
+                setTimeout(() => {
+                    res.render("login");
+                  }, 3000);
             }
            
         }catch(error){
             res.status(404).json({ErrorUser:error})
         }
+    }
+
+    login_render(req,res,next){
+        res.render("login")
+        next();
+    }
+
+    redirectt(req,res){
+        res.redirect("/producto")
     }
 }
