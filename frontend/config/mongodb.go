@@ -2,36 +2,62 @@ package config
 
 import (
 	"context"
-
+	"fmt"
+	"time"
 	"go.mongodb.org/mongo-driver/mongo"
 	"go.mongodb.org/mongo-driver/mongo/options"
 )
 
 
-func MongoConfig()(*mongo.Client, error){
-	clientOptions := options.Client().ApplyURI("mongodb://localhost:27017/")
-	client, err := mongo.Connect(context.TODO(), clientOptions)
+
+var mongoClient *mongo.Client
+
+func InitMongoClient() error {
+	ctx, cancel := context.WithTimeout(context.Background(), 10*time.Second)
+	defer cancel()
+
+	clientOptions := options.Client().ApplyURI("mongodb://localhost:27017/tienda_online")
+	client, err := mongo.Connect(ctx, clientOptions)
 
 	if err != nil {
-		return nil, err
-	}
-	
-	err = client.Ping(context.Background(),nil)
-
-	if err != nil {
-		return nil, err
+		return fmt.Errorf("error al conectar a MongoDB: %w", err)
 	}
 
-	return client, nil
+	if err = client.Ping(ctx, nil); err != nil {
+		return fmt.Errorf("error al hacer ping a MongoDB: %w", err)
+	}
+
+	mongoClient = client
+	return nil
 }
 
-
 func GetPedidosCollection() (*mongo.Collection, error) {
-	client, err := MongoConfig()
+	if mongoClient == nil {
+		err := InitMongoClient()
+		if err != nil {
+			return nil, err
+		}
+	}
+
+	collection := mongoClient.Database("tienda_online").Collection("Pedido")
+	return collection, nil
+} 
+
+
+func GetMongoClient() (*mongo.Client, error) {
+	if mongoClient == nil {
+		err := InitMongoClient() 
+		if err != nil {
+			return nil, err
+		}
+	}
+	return mongoClient, nil
+}
+
+func GetDatabase(name string) (*mongo.Database, error) {
+	client, err := GetMongoClient()
 	if err != nil {
 		return nil, err
 	}
-
-	collection := client.Database("tienda_online").Collection("Pedido")
-	return collection, nil
+	return client.Database(name), nil
 }

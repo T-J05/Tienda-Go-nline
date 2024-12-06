@@ -5,9 +5,12 @@ import (
 	"frontend/config"
 	"frontend/models"
 	"net/http"
-
+	"time"
 	"github.com/gin-gonic/gin"
 	"go.mongodb.org/mongo-driver/bson/primitive"
+	"go.mongodb.org/mongo-driver/bson"
+
+
 )
 
 
@@ -31,7 +34,7 @@ func CreatePedido(c *gin.Context){
 		return
 	}
 
-	// Paso 4: Asignar un ID único al pedido si no tiene uno (Mongo lo generaría automáticamente)
+
 	if nuevoPedido.ID.IsZero() {
 		nuevoPedido.ID = primitive.NewObjectID()
 	}
@@ -54,6 +57,33 @@ func CreatePedido(c *gin.Context){
 }
 
 func VerPedidos(c *gin.Context){
-	
 
+	var pedidos []models.Pedido
+	collection, err := config.GetPedidosCollection()
+	ctx, cancel := context.WithTimeout(context.Background(), 10*time.Second)
+	defer cancel() 
+	
+	if err != nil {
+		c.JSON(http.StatusInternalServerError, gin.H{
+			"message": "Error al conectar a la base de datos",
+		})
+		return
+	}
+	
+	cursor, err := collection.Find(ctx, bson.D{{}})
+
+	if err != nil{
+		c.JSON(http.StatusInternalServerError, gin.H{
+			"message": err.Error(),
+		})
+		return
+	}
+
+	if err := cursor.All(ctx,&pedidos); err != nil {
+		c.JSON(http.StatusInternalServerError, gin.H{
+			"message": err.Error(),
+		})
+	}
+
+	c.JSON(http.StatusOK, pedidos)
 }
