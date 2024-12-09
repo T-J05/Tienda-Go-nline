@@ -1,17 +1,35 @@
 /* styles.css */
 
+
+body {
+    display: flex;
+    justify-content: center; /* Centra el contenedor horizontalmente */
+    align-items: center; /* Centra el contenedor verticalmente */
+    height: 100vh; /* Asegúrate de que el body ocupe toda la altura de la pantalla */
+    margin: 0;
+}
+
+.title {
+    text-align: center; /* Centra el texto dentro del contenedor */
+}
+
+
 /* Estilo para la alerta */
 .alerta {
-    background-color: #13d00c85;
-    color: hsl(0, 0%, 0%);
+    position: fixed;  /* Fija el alert sobre la pantalla */
+    top: 20px;        /* Espaciado desde la parte superior */
+    left: 50%;        /* Coloca el alert a la mitad de la pantalla */
+    transform: translateX(-50%);  /* Centrado horizontal */
+    background-color: #13d00c85;  /* Color de fondo */
+    color: hsl(0, 0%, 0%);  /* Color del texto */
     padding: 10px;
-    margin: 0 auto; /* Centrado horizontal */
-    border: 1px solid #3ea30095;
-    border-radius: 3px;
+    border: 1px solid #3ea30095;  /* Borde del alert */
+    border-radius: 3px;  /* Bordes redondeados */
     opacity: 1;
-    animation: fadeOut 3s forwards;
-    width: 20%; /* Tamaño fijo o relativo */
-    text-align: center; /* Alineación del texto */
+    animation: fadeOut 3s forwards;  /* Animación de desvanecimiento */
+    width: 20%;  /* Ancho del alert */
+    text-align: center;  /* Alineación del texto */
+    z-index: 9999;  /* Asegura que esté por encima de otros elementos */
 }
 
 /* Animación para desvanecer la alerta */
