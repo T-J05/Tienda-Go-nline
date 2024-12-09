@@ -9,11 +9,13 @@ html
     h1 Lista de Pedidos
     if pedidos && pedidos.length > 0
       each pedido in pedidos
+       
         h2 Pedido #{pedido._id}
         ul
           each producto in pedido.productos
             li
               span Nombre: #{producto.nombre} -
-              span Precio: $#{producto.precio.toFixed(2)}
+              span Precio: $#{producto.precio.toFixed(2)} -
+              span Direc: #{pedido.direccion}
     else
       p No hay pedidos disponibles.

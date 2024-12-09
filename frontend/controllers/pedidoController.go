@@ -2,22 +2,24 @@ package controllers
 
 import (
 	"context"
+	"fmt"
 	"frontend/config"
 	"frontend/models"
 	"net/http"
-	"fmt"
-	"github.com/gin-gonic/gin"
-	"go.mongodb.org/mongo-driver/bson/primitive"
-	"github.com/gin-contrib/sessions"
 	"strconv"
 	"strings"
+
+	"github.com/gin-contrib/sessions"
+	"github.com/gin-gonic/gin"
 	"github.com/pkg/errors"
+	"go.mongodb.org/mongo-driver/bson/primitive"
 )
 
 func ConfirmarPedido(c *gin.Context) {
 	// Obtener la sesión
 	session := sessions.Default(c)
 
+	direccion := c.PostForm("direccion")
 	// Obtener el carrito de la sesión
 	carrito := session.Get("carrito")
 	if carrito == nil {
@@ -35,6 +37,11 @@ func ConfirmarPedido(c *gin.Context) {
 	// Crear el pedido
 	nuevoPedido := models.Pedido{
 		Productos: productosCarrito,
+		Direccion: direccion,
+	}
+
+	if nuevoPedido.Direccion == "" {
+		nuevoPedido.Direccion = "calle palma" 
 	}
 
 	// Llamar a CreatePedido para insertar el pedido en la base de datos
@@ -47,14 +54,13 @@ func ConfirmarPedido(c *gin.Context) {
 	fmt.Println("Estado del carrito después de eliminar:", session.Get("carrito"))
 
 	session.Set("alerta", "Gracias por su compra!")
-    session.Save()
+	session.Save()
 
 	c.Redirect(http.StatusFound, "/tiendaOnline")
 }
 
-
 func CreatePedido(c *gin.Context, pedido models.Pedido) {
-	
+
 	collection, err := config.GetPedidosCollection()
 	if err != nil {
 		c.JSON(http.StatusInternalServerError, gin.H{"message": "Error al conectar a la base de datos"})
@@ -71,7 +77,6 @@ func CreatePedido(c *gin.Context, pedido models.Pedido) {
 		return
 	}
 
-
 }
 
 func AgregarAlCarrito(c *gin.Context) {
@@ -81,10 +86,9 @@ func AgregarAlCarrito(c *gin.Context) {
 	// Obtener los datos del formulario
 	productoID := c.PostForm("id")
 	productoID = strings.TrimPrefix(productoID, "ObjectID(\"")
-	productoID = strings.TrimSuffix(productoID, "\")")   
+	productoID = strings.TrimSuffix(productoID, "\")")
 	productoNombre := c.PostForm("nombre")
 	productoPrecio := c.PostForm("precio")
-
 
 	objectID, err := primitive.ObjectIDFromHex(productoID)
 	if err != nil {
@@ -107,7 +111,7 @@ func AgregarAlCarrito(c *gin.Context) {
 
 	// Obtener el carrito de la sesión (si existe)
 	carrito := session.Get("carrito")
-	
+
 	if carrito == nil {
 		carrito = []models.ProductoPedido{}
 	}
@@ -118,17 +122,17 @@ func AgregarAlCarrito(c *gin.Context) {
 	fmt.Println("Sesión antes de guardar carrito:", session.Get("carrito"))
 
 	if err := session.Save(); err != nil {
-        wrappedErr := errors.Wrap(err, "Error al intentar guardar la sesión")
-        c.JSON(http.StatusInternalServerError, gin.H{
-            "message": "Error al añadir el producto al carrito. Inténtalo nuevamente.",
-            "error":   wrappedErr.Error(), 
-        })
-        fmt.Printf("Error detallado: %+v\n", wrappedErr)
-        return
-    }
+		wrappedErr := errors.Wrap(err, "Error al intentar guardar la sesión")
+		c.JSON(http.StatusInternalServerError, gin.H{
+			"message": "Error al añadir el producto al carrito. Inténtalo nuevamente.",
+			"error":   wrappedErr.Error(),
+		})
+		fmt.Printf("Error detallado: %+v\n", wrappedErr)
+		return
+	}
 
 	session.Set("alerta", "Producto agregado correctamente al carrito!")
-    session.Save()
+	session.Save()
 	c.Redirect(http.StatusFound, "/tiendaOnline")
 }
 
@@ -138,11 +142,11 @@ func VerCarrito(c *gin.Context) {
 
 	// Obtener el carrito de la sesión
 	carrito := session.Get("carrito")
-	fmt.Println("carrito en verCarrito luego de obtener el carrito de la sesion",carrito)
+	fmt.Println("carrito en verCarrito luego de obtener el carrito de la sesion", carrito)
 	if carrito == nil {
 		carrito = []models.ProductoPedido{}
 	}
-	
+
 	// Calcular el total del carrito
 	var total float64
 	for _, producto := range carrito.([]models.ProductoPedido) {
@@ -157,11 +161,11 @@ func VerCarrito(c *gin.Context) {
 }
 
 func CreatePedidoHandler(c *gin.Context) {
-    // Extraer el cuerpo de la solicitud y llamar a la función CreatePedido
-    var pedido models.Pedido
-    if err := c.ShouldBindJSON(&pedido); err != nil {
-        c.JSON(http.StatusBadRequest, gin.H{"message": "Datos inválidos"})
-        return
-    }
-    CreatePedido(c, pedido)
+	// Extraer el cuerpo de la solicitud y llamar a la función CreatePedido
+	var pedido models.Pedido
+	if err := c.ShouldBindJSON(&pedido); err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{"message": "Datos inválidos"})
+		return
+	}
+	CreatePedido(c, pedido)
 }

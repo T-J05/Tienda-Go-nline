@@ -1,20 +1,60 @@
-/* styles.css */
-
-
-body {
-    display: flex;
-    justify-content: center; /* Centra el contenedor horizontalmente */
-    align-items: center; /* Centra el contenedor verticalmente */
-    height: 100vh; /* Asegúrate de que el body ocupe toda la altura de la pantalla */
-    margin: 0;
-}
-
+/* Centrar el título en la parte superior */
 .title {
-    text-align: center; /* Centra el texto dentro del contenedor */
+    text-align: center;  /* Centra el texto */
+    width: 100%;         /* Asegura que el contenedor ocupe todo el ancho disponible */
+    margin-top: 20px;    /* Espaciado desde el borde superior */
+    font-size: 24px;     /* Tamaño del título */
+}
+
+/* Estilo para los productos */
+.productos-container {
+    display: flex;
+    justify-content: center;  /* Centra los productos en el contenedor */
+    flex-wrap: wrap;          /* Permite que los productos se acomoden en varias filas si es necesario */
+    gap: 20px;                /* Espacio entre los productos */
+    padding: 20px;            /* Espaciado interno del contenedor */
+}
+
+.producto {
+    width: 200px;             /* Ancho fijo para cada producto */
+    text-align: center;       /* Centra el contenido del producto */
+}
+
+.producto img {
+    width: 100%;              /* Hace que las imágenes llenen el ancho de su contenedor */
+    height: auto;             /* Mantiene la proporción de la imagen */
+}
+
+.producto h3 {
+    font-size: 18px;          /* Tamaño de fuente del nombre del producto */
+    margin-top: 10px;         /* Espacio por encima del nombre del producto */
+}
+
+.producto p {
+    font-size: 16px;          /* Tamaño de fuente de la descripción */
+    color: #555;              /* Color de texto gris para la descripción */
+}
+
+.producto button {
+    background-color: #0088ff;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    cursor: pointer;
+    border-radius: 5px;
+    margin-top: 10px;
+}
+
+.producto button:hover {
+    background-color: #0056b3;
 }
 
 
-/* Estilo para la alerta */
+.carritoboton{
+    background-color: aqua;
+    border-bottom: rgba(240, 248, 255, 0);
+}
+
 .alerta {
     position: fixed;  /* Fija el alert sobre la pantalla */
     top: 20px;        /* Espaciado desde la parte superior */
@@ -43,45 +83,4 @@ body {
     100% {
         opacity: 0;
     }
-}
-
-/* Estilos para los productos */
-.productos-container {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 20px;
-}
-
-.producto {
-    width: 200px;
-    text-align: center;
-}
-
-.producto img {
-    width: 100%;
-    height: auto;
-}
-
-.producto h3 {
-    font-size: 16px;
-    margin-top: 10px;
-}
-
-.producto p {
-    font-size: 14px;
-    color: #555;
-}
-
-.producto button {
-    background-color: #0088ff;
-    color: white;
-    border: none;
-    padding: 10px 20px;
-    cursor: pointer;
-    border-radius: 5px;
-    margin-top: 10px;
-}
-
-.producto button:hover {
-    background-color: #0056b3;
 }
