@@ -48,10 +48,13 @@ func ConfirmarPedido(c *gin.Context) {
 
 	session.Set("alerta", "Gracias por su compra!")
     session.Save()
+
 	c.Redirect(http.StatusFound, "/tiendaOnline")
 }
 
+
 func CreatePedido(c *gin.Context, pedido models.Pedido) {
+	
 	collection, err := config.GetPedidosCollection()
 	if err != nil {
 		c.JSON(http.StatusInternalServerError, gin.H{"message": "Error al conectar a la base de datos"})
@@ -67,6 +70,7 @@ func CreatePedido(c *gin.Context, pedido models.Pedido) {
 		c.JSON(http.StatusInternalServerError, gin.H{"message": "Error al guardar el pedido en la base de datos"})
 		return
 	}
+
 
 }
 

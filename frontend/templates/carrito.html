@@ -18,6 +18,7 @@
         </ul>
         <h3>Total: ₲{{.total}}</h3>
         <form action="/confirmar-pedido" method="POST">
+            <textarea name="direccion" id="direccion" placeholder="Escriba su direccion por favor"></textarea>
             <button type="submit">Confirmar Pedido</button>
         </form>
     {{else}}
