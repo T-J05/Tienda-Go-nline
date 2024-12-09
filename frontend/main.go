@@ -1,17 +1,34 @@
 package main
 
 import (
-
 	"log" // Importa log para manejar errores
 	"context" // Importa context para el uso de contexto en MongoDB
+	"encoding/gob"
 	"github.com/gin-gonic/gin"
 	"frontend/routes"
 	"frontend/config"
+	"github.com/gin-contrib/sessions"
+	"github.com/gin-contrib/sessions/cookie"
+	"frontend/models"
 )
+
+
+func init() {
+    // Registrar el tipo ProductoPedido para su uso con gob
+	gob.Register(models.ProductoPedido{})  // Registro del tipo ProductoPedido
+    gob.Register([]models.ProductoPedido{})  // Registro de un slice de ProductoPedido
+}
+
 
 func main() {
 	// Inicializa el router de Gin
 	r := gin.Default()
+
+	// Configura el almacenamiento de sesiones en cookies
+	store := cookie.NewStore([]byte("clave_muyyyy_secreta"))
+	r.Use(sessions.Sessions("josexd", store))
+
+	// Configura las rutas
 	routes.SetupRoutes(r)
 
 	// Inicializa la conexión a MongoDB
@@ -31,13 +48,11 @@ func main() {
 			log.Fatalf("Error al desconectar MongoDB: %v", err)
 		}
 	}()
-
-	// Ruta de prueba
-	r.GET("/", func(c *gin.Context) {
-		c.JSON(200, gin.H{
-			"message": "hola mundo",
-		})
-	})
+	
+	r.Static("/static", "./static")
+	
+	// Carga las plantillas HTML
+	r.LoadHTMLGlob("templates/*")
 
 	// Inicia el servidor Gin
 	r.Run()

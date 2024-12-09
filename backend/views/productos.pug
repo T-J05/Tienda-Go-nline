@@ -2,13 +2,64 @@ doctype html
 html
   head
     title Productos
+    link(rel="stylesheet", href="/styles/products.css") 
   body
     h1 Lista de productos
-ul
-  if productos && productos.length > 0
-    each producto in productos
-      li
-        h3= producto.name 
-        p Precio: $#{producto.price}
-  else
-    p No hay productos disponibles.
+    
+    // Formulario de agregar producto siempre visible
+    form(id="form-agregar", class="formulario-agregar", action="/producto", method="POST")
+      div
+        label(for="name") Nombre del Producto
+        input(type="text", name="name", required)
+
+      div
+        label(for="price") Precio
+        input(type="number", name="price", required)
+
+      div
+        label(for="image") Url de la imagen
+        input(type="text", name="image", required)
+
+      // Aquí usamos el token que se pasa en la URL
+      div
+        input(type="hidden", name="token", value=token) 
+
+      div
+        button(type="submit") Agregar Producto
+
+    ul
+      each producto in productos
+        li(class="producto")
+          h3= producto.name
+          p Precio: $#{producto.price}
+
+          // Formulario de editar producto, visible cuando se selecciona editar
+          form(action=`/producto/${producto.id}?_method=PATCH`, method="POST")
+            div
+              label(for="name") Nuevo Nombre del Producto
+              input(type="text", name="name", value=producto.name, required)
+
+            div
+              label(for="price") Nuevo Precio
+              input(type="number", name="price", value=producto.price, required)
+
+            div
+              label(for="image") Nuevo link image
+              input(type="text", name="image", value=producto.image)
+
+            div
+              input(type="hidden", name="token", value=token)
+
+            div
+              button(type="submit") Guardar Cambios
+
+          // Botón para eliminar producto
+          form(action=`/producto/${producto.id}?_method=DELETE`, method="POST", style="display:inline")
+            div
+            input(type="hidden", name="token", value=token) 
+            button(type="submit") Eliminar
+
+
+    form(action='/pedidos/get', method="GET", style="display:inline")
+            div
+            button(type="submit") Ver Pedidos

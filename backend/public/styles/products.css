@@ -1,0 +1,33 @@
+/* Estilos generales para la página */
+body {
+    font-family: Arial, sans-serif;
+    margin: 20px;
+  }
+  
+  h1 {
+    text-align: center;
+  }
+  
+  /* Estilos para los productos */
+  .producto {
+    margin-bottom: 10px;
+  }
+  
+  .producto button {
+    margin-left: 10px;
+  }
+  
+  /* Estilos para el formulario de agregar producto */
+  .formulario-agregar {
+    margin-top: 20px;
+    padding: 15px;
+    border-radius: 8px;
+    background-color: #f9f9f9;
+    border: 1px solid #ccc;
+  }
+  
+  /* Estilos para los formularios dentro de los productos (editar) */
+  form {
+    margin-top: 10px;
+  }
+  

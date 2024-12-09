@@ -8,7 +8,7 @@ import (
 	"log"
 	"github.com/gin-gonic/gin"
 	"go.mongodb.org/mongo-driver/bson"
-
+	"github.com/gin-contrib/sessions"
 
 )
 
@@ -37,5 +37,15 @@ func GetProducts(c *gin.Context) {
 		return
 	}
 
-	c.JSON(http.StatusOK, products)
+	session := sessions.Default(c)
+
+    // Obtener y eliminar el mensaje de alerta de la sesión
+    alerta := session.Get("alerta")
+    if alerta != nil {
+        session.Delete("alerta") // Borrar el mensaje para que no se muestre de nuevo
+        session.Save()
+    }
+
+	c.HTML(http.StatusOK, "index.html", gin.H{"productos": products, "alerta": alerta})
+	
 }

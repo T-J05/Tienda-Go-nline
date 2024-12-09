@@ -1,0 +1,71 @@
+/* Establecer el fondo */
+body {
+    margin: 0;
+    padding: 0;
+    font-family: Arial, sans-serif;
+    height: 100vh;
+    background: url("https://i.pinimg.com/736x/14/6b/d5/146bd5fa45e6d4dcb1571d0d30484ca0.jpg") no-repeat center center fixed;
+    background-size: cover;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+  
+  /* Estilo del contenedor de login */
+  .login-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100%;
+  }
+  
+  .login-box {
+    background: rgba(255, 255, 255, 0.8); /* Fondo translúcido */
+    padding: 40px;
+    border-radius: 10px;
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+    width: 300px;
+    text-align: center;
+    transition: all 0.3s ease;
+  }
+  
+  .login-box:hover {
+    transform: scale(1.05);
+  }
+  
+  h2 {
+    margin-bottom: 20px;
+    font-size: 24px;
+  }
+  
+  div {
+    margin-bottom: 20px;
+  }
+  
+  input {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    box-sizing: border-box;
+  }
+  
+  input:focus {
+    border-color: #4CAF50;
+    outline: none;
+  }
+  
+  button {
+    width: 100%;
+    padding: 10px;
+    background-color: #4CAF50;
+    border: none;
+    border-radius: 5px;
+    color: white;
+    cursor: pointer;
+  }
+  
+  button:hover {
+    background-color: #45a049;
+  }
+  

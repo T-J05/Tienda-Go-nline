@@ -12,9 +12,12 @@ func SetupRoutes(r *gin.Engine) {
 
 	r.GET("/tiendaOnline", controllers.GetProducts)
 
+	r.POST("/pedido", controllers.CreatePedidoHandler)
 
-	r.POST("/pedido", controllers.CreatePedido)
+	r.POST("/agregar-al-carrito",controllers.AgregarAlCarrito)
 
-	r.GET("pedido", controllers.VerPedidos)
+	r.GET("/ver-carrito", controllers.VerCarrito)  
+
+	r.POST("/confirmar-pedido", controllers.ConfirmarPedido)
 	
 }

@@ -1,14 +1,18 @@
 doctype html
-html
+html(lang="es")
   head
+    meta(charset="UTF-8")
     title Login
+    link(rel="stylesheet", href="/styles/login.css")  
   body
-    h2 Ingresa como Admin
-    form(action="/admin/login" method="POST")
-      label(for="username") Username:
-      input(type="text" name="username" id="username" required)
-      
-      label(for="contraseña") Contraseña:
-      input(type="text" name="contraseña" id="contraseña" required)
-      
-      button(type="submit") Entrar
+    section.login-container
+      .login-box
+        h2 Inicia Sesión
+        form(action="/admin/login" method="POST")
+          div
+            label(for="username") Usuario:
+            input(type="text" id="username" name="username" placeholder="Escribe tu usuario" required)
+          div
+            label(for="password") Contraseña:
+            input(type="password" id="contraseña" name="contraseña" placeholder="Escribe tu contraseña" required)
+          button(type="submit") Iniciar sesión

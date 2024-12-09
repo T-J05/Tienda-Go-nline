@@ -1,8 +1,8 @@
 import Users from "../models/userModel.js";
 import JWT from "../middlewares/jwt.js";
-import bcrypt from "bcrypt"
+import bcrypt from "bcryptjs"
 import dotenv from "dotenv";
-import time from "timers"
+
 
 dotenv.config();
 const jwt = new JWT();
@@ -30,11 +30,11 @@ export default  class UsersClass{
             })
         }
             else{
-                res.status(404).json({ExisteYa: username})
+                res.status(404).json({"ExisteYa": username})
             }
-            res.status(200).json({RegisterExitoso: username})
+            res.status(200).json({"RegisterExitoso": username})
         }catch(error){
-            res.json({ErrorRegister: error.message})
+            res.json({"ErrorRegister": error.message})
         }
     }
 
@@ -51,7 +51,7 @@ export default  class UsersClass{
                         username: username
                     }
                     const token = jwt.generarJwt(payload,secret_key);
-                    res.cookie("token",token).redirect("/producto")
+                    return res.redirect(`/producto?token=${encodeURIComponent(token)}`)
                 }
            
             }
@@ -68,7 +68,7 @@ export default  class UsersClass{
     }
 
     login_render(req,res,next){
-        res.render("login")
+        res.render('login')
         next();
     }
 

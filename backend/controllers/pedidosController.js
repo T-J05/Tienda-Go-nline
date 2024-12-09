@@ -1,18 +1,27 @@
 import mongoose from "mongoose"
-import connectDB from "../config/databaseJS.js"
 
 
-const obtenerPedidos = async (req, res)=> {
-    try{
-    const db = mongoose.connection.db;
-    const productsCollection = db.collection("Pedido");
-    const products = await productsCollection.find().toArray();
+export default class Pedidos{
+    constructor(){
 
     }
-   
-    catch(error){
-        res.status(400).json({error: error.message, "message": "Error al obtener Pedido"})
 
-    }
-   
+    async obtenerPedidos (req, res){
+        try {
+            const db = mongoose.connection.db;
+            const productsCollection = db.collection("Pedido");
+            const pedidos = await productsCollection.find().toArray();
+    
+            if (pedidos.length === 0) {
+               
+                return res.status(404).json({ message: "No hay pedidos" });
+            }
+    
+            return res.render('pedidos',{pedidos: pedidos})
+    
+        } catch (error) {
+            res.status(400).json({ error: error.message, "message": "Error al obtener Pedido" });
+        }
+    };
 }
+

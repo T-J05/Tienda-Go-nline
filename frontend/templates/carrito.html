@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Carrito de Compras</title>
+</head>
+<body>
+    <h1>Carrito de Compras</h1>
+
+    {{if .carrito}}
+        <ul>
+            {{range .carrito}}
+                <li>
+                    Producto: {{.Nombre}} - Precio: ₲{{.Precio}}
+                </li>
+            {{end}}
+        </ul>
+        <h3>Total: ₲{{.total}}</h3>
+        <form action="/confirmar-pedido" method="POST">
+            <button type="submit">Confirmar Pedido</button>
+        </form>
+    {{else}}
+        <p>El carrito está vacío.</p>
+    {{end}}
+</body>
+</html>

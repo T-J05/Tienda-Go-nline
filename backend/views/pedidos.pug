@@ -1,0 +1,19 @@
+doctype html
+html
+  head
+    meta(charset="UTF-8")
+    link(rel="stylesheet", href="/styles/pedidos.css") 
+    title Lista de Pedidos
+
+  body
+    h1 Lista de Pedidos
+    if pedidos && pedidos.length > 0
+      each pedido in pedidos
+        h2 Pedido #{pedido._id}
+        ul
+          each producto in pedido.productos
+            li
+              span Nombre: #{producto.nombre} -
+              span Precio: $#{producto.precio.toFixed(2)}
+    else
+      p No hay pedidos disponibles.

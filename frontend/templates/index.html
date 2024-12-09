@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lista de Productos</title>
+    <link rel="stylesheet" href="/static/styles.css">
+</head>
+<body>
+
+    <!-- Mostrar la alerta si el parámetro "alerta" está presente en la URL -->
+    {{if .alerta}}
+    <div class="alerta">
+        {{.alerta}}
+    </div>
+    {{end}}
+
+    <h1>Lista de Productos</h1>
+    <div class="productos-container">
+        <!-- Aquí solo mostrarías los productos si los tienes en sesión o base de datos -->
+        {{range .productos}}
+            <div class="producto">
+                <img src="{{.image}}" alt="{{.name}}">
+                <h3>{{.name}}</h3>
+                <p>Precio: ₲{{.price}}</p>
+                <form action="/agregar-al-carrito" method="POST">
+                    <input type="hidden" name="id" value="{{._id}}">
+                    <input type="hidden" name="nombre" value="{{.name}}">
+                    <input type="hidden" name="precio" value="{{.price}}">
+                    <button type="submit">Agregar al carrito</button>
+                </form>
+            </div>
+        {{end}}
+    </div>
+    <a href="/ver-carrito">🛒Carrito</a>
+
+    <a href="http://www.localhost:3000/admin/login" target="_blank">
+        <button class="user-btn">👤 Admin</button>
+    </a>
+</body>
+</html>
