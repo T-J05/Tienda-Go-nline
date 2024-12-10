@@ -1,0 +1,25 @@
+ 
+doctype html
+html
+  head
+    title Productos
+    link(rel="stylesheet", href="/styles/products.css") 
+  body
+    form(action=`/producto/${producto.id}?token=${encodeURIComponent(token)}?_method=PATCH`, method="POST")
+                div
+                label(for="name") Nuevo Nombre del Producto
+                input(type="text", name="name", value=producto.name, required)
+
+                div
+                label(for="price") Nuevo Precio
+                input(type="number", name="price", value=producto.price, required)
+
+                div
+                label(for="image") Nuevo link image
+                input(type="text", name="image", value=producto.image)
+
+                div
+                input(type="hidden", name="token", value=token)
+
+                div
+                button(type="submit") Guardar Cambios

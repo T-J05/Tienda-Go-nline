@@ -77,5 +77,12 @@ export default class Crud{
         }
     };
 
-
+    async mostrarFormulario(req,res){
+        const { id } = req.params;
+        console.log(id)
+        const producto = await Product.findById(
+            id
+        )
+        res.render('editarProducto',{producto:producto,id:id})
+    }
 };

@@ -30,28 +30,13 @@ html
     ul
       each producto in productos
         li(class="producto")
-          h3= producto.name
+          h3= producto.name 
+          a(href=`producto/editarProducto/${producto.id}/?token=${token}`) Editar
+
           p Precio: $#{producto.price}
 
           // Formulario de editar producto, visible cuando se selecciona editar
-          form(action=`/producto/${producto.id}?_method=PATCH`, method="POST")
-            div
-              label(for="name") Nuevo Nombre del Producto
-              input(type="text", name="name", value=producto.name, required)
-
-            div
-              label(for="price") Nuevo Precio
-              input(type="number", name="price", value=producto.price, required)
-
-            div
-              label(for="image") Nuevo link image
-              input(type="text", name="image", value=producto.image)
-
-            div
-              input(type="hidden", name="token", value=token)
-
-            div
-              button(type="submit") Guardar Cambios
+         
 
           // Botón para eliminar producto
           form(action=`/producto/${producto.id}?_method=DELETE`, method="POST", style="display:inline")
