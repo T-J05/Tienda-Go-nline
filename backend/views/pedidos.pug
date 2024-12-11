@@ -11,11 +11,18 @@ html
       each pedido in pedidos
        
         h2 Pedido #{pedido._id}
+        form(action=`/pedidos/eliminarPedido/${pedido._id}?_method=DELETE`, method="POST", style="display:inline")
+                div
+
+                  input(type="hidden", name="token", value=token)
+                  button(type="submit") Eliminar Pedido
         ul
           each producto in pedido.productos
             li
-              span Nombre: #{producto.nombre} -
+              span Nombre: #{producto.nombre} - 
               span Precio: $#{producto.precio.toFixed(2)} -
               span Direc: #{pedido.direccion}
+              
+
     else
       p No hay pedidos disponibles.

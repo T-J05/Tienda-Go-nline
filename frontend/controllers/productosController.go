@@ -2,14 +2,15 @@ package controllers
 
 import (
 	"context"
+	"fmt"
 	"frontend/config"
+	"log"
 	"net/http"
 	"time"
-	"log"
+
+	"github.com/gin-contrib/sessions"
 	"github.com/gin-gonic/gin"
 	"go.mongodb.org/mongo-driver/bson"
-	"github.com/gin-contrib/sessions"
-
 )
 
 func GetProducts(c *gin.Context) {
@@ -45,6 +46,8 @@ func GetProducts(c *gin.Context) {
         session.Delete("alerta") // Borrar el mensaje para que no se muestre de nuevo
         session.Save()
     }
+
+	fmt.Println("producto en go",products)
 
 	c.HTML(http.StatusOK, "index.html", gin.H{"productos": products, "alerta": alerta})
 	

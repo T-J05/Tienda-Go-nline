@@ -33,7 +33,7 @@ html
           h3= producto.name 
           a(href=`producto/editarProducto/${producto.id}/?token=${token}`) Editar
 
-          p Precio: $#{producto.price}
+          p Precio: ₲ #{producto.price}
 
           // Formulario de editar producto, visible cuando se selecciona editar
          
@@ -45,6 +45,7 @@ html
             button(type="submit") Eliminar
 
 
-    form(action='/pedidos/get', method="GET", style="display:inline")
+    form(action=`/pedidos/get`, method="GET", style="display:inline")
             div
+            input(type="hidden", name="token", value=token) 
             button(type="submit") Ver Pedidos

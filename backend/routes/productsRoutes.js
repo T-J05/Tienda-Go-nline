@@ -20,4 +20,5 @@ router.delete("/:id",middlewares.verificarToken,middlewares.verificarRol,crud.el
 router.get('/editarProducto/:id',crud.mostrarFormulario)
 
 
+
 export default router

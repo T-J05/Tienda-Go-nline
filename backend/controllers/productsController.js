@@ -37,14 +37,14 @@ export default class Crud{
 
     async editarProducto(req,res){
             const { id }  = req.params;
-            const { name, price, imagen } = req.body;
+            const { name, price, image } = req.body;
             const token = req.token;
             console.log({token:token})
             try{
                if (id){
                 const updateProduct = await Product.findByIdAndUpdate(
                     id,
-                    {$set: {name, price,imagen}},
+                    {$set: {name, price,image}},
                     { new: true, runValidators: true }
                     
                 );
@@ -79,10 +79,23 @@ export default class Crud{
 
     async mostrarFormulario(req,res){
         const { id } = req.params;
+        const { token } = req.query;
+        console.log({"tokendelquery":token})
         console.log(id)
         const producto = await Product.findById(
             id
         )
-        res.render('editarProducto',{producto:producto,id:id})
+        if (producto){
+            res.render('editarProducto',{
+            producto:producto,
+            id:id,
+            token:token})
+        }
+        else{
+            res.json({id:id, "mensaje":"no valido"})
+        }
     }
+
+
+    
 };
